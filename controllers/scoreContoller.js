@@ -31,3 +31,24 @@ exports.createScore = async(req,res)=>{
         })
     }
 }
+
+exports.deleteScore = async (req,res)=>{
+    try {
+        const {id} = req.params
+        const data = await scoreModel.findByIdAndDelete(id)
+        if (!data) {
+            return res.status(404).json({
+                message:"score not found"
+            })
+        }
+        res.status(200).json({
+            message:"score deleted successfully",
+            data
+        })
+    } catch (error) {
+        res.status(500).json({
+            message:"internal server error",
+            error:error.message
+        })
+    }
+}
