@@ -43,7 +43,31 @@ exports.getAll = async (req,res)=>{
             error:error.message
         })
     }
-}
+};
+
+exports.updateStudent = async (req, res) => {
+    try {
+        const {id} = req.params;
+        const {name, age, email, gender} = req.body
+        const student = await studentModel.findById(id);
+        if(!student){
+            return res.status(404).json({
+                message: `Student with ${id} not found`
+            })
+        }
+        const data = {name, age, email, gender};
+        const updatedStudent = await studentModel.findByIdAndUpdate(id, data, {new: true})
+        res.status(200).json({
+            message: 'Student updated successfully',
+            data: updatedStudent
+        })
+    } catch (error) {
+         res.status(500).json({
+            message:"internal server error",
+            error:error.message
+        })
+    }
+};
 
 exports.deleteStudent = async (req,res)=>{
     try {

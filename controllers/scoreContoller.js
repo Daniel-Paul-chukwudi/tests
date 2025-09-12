@@ -40,6 +40,17 @@ exports.createScore = async(req,res)=>{
             error:error.message
         })
     }
+};
+
+exports.updateScores = async (req, res) => {
+    try {
+        const 
+    } catch (error) {
+         res.status(500).json({
+            message:"internal server error",
+            error:error.message
+        })
+    }
 }
 
 exports.deleteScore = async (req,res)=>{
