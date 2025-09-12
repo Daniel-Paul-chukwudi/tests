@@ -1,0 +1,33 @@
+const scoreModel = require('../models/scoreModel')
+const studentModel = require('../models/studentModel')
+
+exports.createScore = async(req,res)=>{
+    try {
+        const studentId = req.params.id
+        const data = await scoreModel.create({
+            studentId,
+            week:req.body.week,
+            puntuality:req.body.puntuality,
+            attendance:req.body.attendance,
+            project:req.body.project,
+            classWork:req.body.classWork
+
+        })
+        //moment.js for time
+        //if you dont put it as default in the model you can call it like moment().format('llll'); in the controller
+        const stu = await studentModel.findById(studentId)
+        const student = stu.score.push(data._id) // to make the score append to the score side in the student model
+        await stu.save() // to save changes to the student
+
+        res.status(201).json({
+            message:"score created successfully",
+            data
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            message:"internal server error",
+            error:error.message
+        })
+    }
+}
