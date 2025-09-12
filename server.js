@@ -8,13 +8,14 @@ const scoreRouter = require('./routes/scoreRouter')
 
 const app = express()
 
+
 app.use(express.json())
 
 app.use('/api/v1/',studentRouter)
 app.use('/api/v1/',scoreRouter)
 
 app.get("/",(req,res)=>{
-    res.json("welcome to Daniel's API")
+    res.json("welcome to Daniel's API.")
 })
 
 mongoose.connect(DB).then(()=>{

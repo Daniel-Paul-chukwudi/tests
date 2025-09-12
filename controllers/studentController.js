@@ -30,6 +30,38 @@ exports.createStudent = async(req,res)=>{
         })
     }
 }
+
+exports.getOne = async (req, res)=>{
+    try {
+        const { id } = req.params;
+        const user = await studentModel.findById(id).select('name, email')
+
+        if (!user) {
+            return res.status(404).json({
+                statusCode: false,
+                statusText: "Not found",
+                message: `Student with id ${id} not found`
+            });
+        };
+
+        res.status(200).json({
+            statusCode: true,
+            statusText: "Ok",
+            message: "Student found",
+            data: student
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            statusCode: false,
+            statusText: "Internal Server Error",
+            message: "Error getting student"
+        });
+        
+    }
+
+}
+
 exports.getAll = async (req,res)=>{
     try {
         const data = await studentModel.find().populate("score")
