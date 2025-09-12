@@ -63,3 +63,30 @@ exports.deleteScore = async (req,res)=>{
         })
     }
 }
+
+
+exports.getOneScore = async (req, res) => {
+  try {
+    const { studentId, week } = req.params; 
+
+    const score = await scoreModel.findOne({
+      studentId: studentId,
+      week: week
+    });
+
+    if (!score) {
+      return res.status(404).json({
+        message: "Score not found"
+      });
+    }  
+
+    res.status(200).json({
+      message: "Score retrieved successfully", 
+      data: score
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
+};
