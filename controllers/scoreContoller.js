@@ -4,14 +4,24 @@ const studentModel = require('../models/studentModel')
 exports.createScore = async(req,res)=>{
     try {
         const studentId = req.params.id
+        if(!studentId){
+            return res.status(400).json({
+                message: `student with id ${studentId} not found`
+            })
+        }
+        const { week, punctuality, attendance, project, classWork } = req.body
+        if (!week || !punctuality || !attendance || !project || !classWork) {
+            return res.status(400).json({
+                message: "All fields are required"
+            })
+        }
         const data = await scoreModel.create({
             studentId,
-            week:req.body.week,
-            puntuality:req.body.puntuality,
-            attendance:req.body.attendance,
-            project:req.body.project,
-            classWork:req.body.classWork
-
+            week,
+            punctuality,
+            attendance,
+            project,
+            classWork
         })
         //moment.js for time
         //if you dont put it as default in the model you can call it like moment().format('llll'); in the controller
@@ -21,7 +31,7 @@ exports.createScore = async(req,res)=>{
 
         res.status(201).json({
             message:"score created successfully",
-            data
+            data: data
         })
 
     } catch (error) {
