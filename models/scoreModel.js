@@ -13,7 +13,7 @@ const scoreShema = new mongoose.Schema({
         required:true,
         unique:true
     },
-    puntuality:{
+    punctuality:{
         type:Number,
         required:true,
         default:0,
