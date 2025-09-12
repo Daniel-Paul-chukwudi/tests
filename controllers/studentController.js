@@ -2,11 +2,25 @@ const studentModel = require('../models/studentModel')
 
 exports.createStudent = async(req,res)=>{
     try {
-        const data = await studentModel.create(req.body)
+        const {name, age, email, gender} = req.body
+        if(!name || !email || !age || !gender){
+            return res.status(400).json({
+                message: "All fields are required"
+            })
+        }
+        const existingEmail = await studentModel.findOne({
+            email: email
+        })
+                if(existingEmail) {
+            return res.status(400).json({
+                message: "Email already exists"
+            })
+        }
+        const data = await studentModel.create({name, age, email, gender})
 
         res.status(201).json({
             message:"Student created successfully",
-            data
+            data: data
         })
 
     } catch (error) {
