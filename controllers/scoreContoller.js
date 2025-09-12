@@ -40,7 +40,8 @@ exports.createScore = async(req,res)=>{
             error:error.message
         })
     }
-}
+};
+
 
 exports.deleteScore = async (req,res)=>{
     try {
